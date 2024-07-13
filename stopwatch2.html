@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    #stopwatch {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    button {
+      font-size: 1em;
+      padding: 10px 20px;
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Stopwatch</h2>
+
+<div id="stopwatch">00:00:00</div>
+<button onclick="startStopwatch()">Start</button>
+<button onclick="pauseStopwatch()">Pause</button>
+<button onclick="resetStopwatch()">Reset</button>
+
+<script>
+  let minutes = 0, seconds = 0, milliseconds = 0;
+  let interval;
+  let running = false;
+
+  function updateStopwatch() {
+    milliseconds += 10;
+    if (milliseconds >= 1000) {
+      milliseconds = 0;
+      seconds++;
+    }
+    if (seconds >= 60) {
+      seconds = 0;
+      minutes++;
+    }
+
+    document.getElementById("stopwatch").innerText =
+      (minutes < 10 ? '0' + minutes : minutes) + ':' +
+      (seconds < 10 ? '0' + seconds : seconds) + ':' +
+      (milliseconds < 100 ? (milliseconds < 10 ? '00' + milliseconds : '0' + milliseconds) : milliseconds);
+  }
+
+  function startStopwatch() {
+    if (!running) {
+      running = true;
+      interval = setInterval(updateStopwatch, 10);
+    }
+  }
+
+  function pauseStopwatch() {
+    running = false;
+    clearInterval(interval);
+  }
+
+  function resetStopwatch() {
+    running = false;
+    clearInterval(interval);
+    minutes = 0;
+    seconds = 0;
+    milliseconds = 0;
+    document.getElementById("stopwatch").innerText = '00:00:00';
+  }
+</script>
+
+</body>
+</html>
